@@ -56,7 +56,7 @@ class Hash:
         Funkcja wywołuje inną funkcję "hash()" w pętli w celu obliczenia czasu wykonania
 
         Zwraca:
-        Otwiera stronę w przeglądarce przygotowaną przez bibliotekę "plotly"
+        Otwiera stronę w przeglądarce przygotowaną przez bibliotekę "plotly" z czasem hashowania dla danych wejściowych
         """
         wyniki = {}
         algorytmy = hashlib.algorithms_available
@@ -69,6 +69,15 @@ class Hash:
     
 
     def rozneRozmiary(self, n):
+        """
+        Oblicza czas hashowania dla roznej dlugoci stringow
+
+        Parametry:
+        (int) n - liczba potęgi liczby 10 do której ma być sprawdzany czas hashowania
+
+        Zwraca:
+        Otwiera stronę w przeglądarce przygotowaną przez bibliotekę "plotly" z porównaniem czasu hashowania
+        """
         dlugosci = [10**k for k in range(n)]
         wyniki = {}
         for dlugosc in dlugosci:
