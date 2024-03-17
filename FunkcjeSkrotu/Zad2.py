@@ -59,8 +59,9 @@ class Hash:
         """
         wyniki = {}
         algorytmy = hashlib.algorithms_available
+        sprawdzCzasFunkcji = timeit.Timer(lambda: self.hashuj())
         for algorytm in algorytmy:
-            wyniki[algorytm] = timeit.timeit(f"{self.hashuj()}", number=100)
+            wyniki[algorytm] = sprawdzCzasFunkcji.timeit(number=1000)
 
         plot = DataFrame(list(wyniki.items()), columns=['Algorytm', 'Milisekundy'])
         wyniki = plotly.scatter_polar(plot, r="Milisekundy",theta="Algorytm")
