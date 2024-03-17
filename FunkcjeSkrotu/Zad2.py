@@ -1,8 +1,9 @@
 import hashlib
-from time import time, sleep
+import string
 import plotly.express as plotly
 from pandas import DataFrame
 import timeit
+import random
 
 class Hash:
     def __init__(self, daneWejsciowe):
@@ -62,9 +63,20 @@ class Hash:
         sprawdzCzasFunkcji = timeit.Timer(lambda: self.hashuj())
         for algorytm in algorytmy:
             wyniki[algorytm] = sprawdzCzasFunkcji.timeit(number=1000)
-
         plot = DataFrame(list(wyniki.items()), columns=['Algorytm', 'Milisekundy'])
         wyniki = plotly.scatter_polar(plot, r="Milisekundy",theta="Algorytm")
+        wyniki.show()
+    
+
+    def rozneRozmiary(self, n):
+        dlugosci = [10**k for k in range(n)]
+        wyniki = {}
+        for dlugosc in dlugosci:
+            losowyString = ''.join(random.choices(string.ascii_uppercase + string.digits, k=dlugosc))
+            sprawdzCzasFunkcji = timeit.Timer(lambda: hashlib.new("sha512", losowyString.encode()).hexdigest())
+            wyniki[dlugosc] = sprawdzCzasFunkcji.timeit(number=1000)
+        plot = DataFrame(list(wyniki.items()), columns=["Długość Słowa", "Milisekundy"])
+        wyniki = plotly.line(plot, y="Milisekundy", x="Długość Słowa")
         wyniki.show()
 
 
@@ -75,6 +87,11 @@ def main():
     h.czasHashowania()
     sciezka = input("Podej sciezke pliku do sprawdzenia hashu\n")
     h.hash_plik(sciezka)
+    ile = input("Podaj długość n we wzorze (10^n) do sprawdzenia\n")
+    try:
+        h.rozneRozmiary(int(ile))
+    except ValueError:
+        print("Nie podano liczby")
 
 
 
